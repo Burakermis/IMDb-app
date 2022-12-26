@@ -23,7 +23,7 @@ class MovieInfo {
         title: json['title'],
         year: finalDate.replaceAll(',', ''),
         overview: json['overview'],
-        poster: json['backdrop_path'],
+        poster: json['backdrop_path'] ?? null,
         imdbRating: json['vote_average'].toString(),
         popularity: json['popularity'].toString());
   }

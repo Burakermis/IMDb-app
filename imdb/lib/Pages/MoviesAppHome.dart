@@ -11,6 +11,7 @@ import '../Components/MovıeList.dart';
 import '../Models/Movie.dart';
 import 'package:http/http.dart' as http;
 import '../Models/MovieInfo.dart';
+import '../main.dart';
 
 class MoviesAppHome extends StatefulWidget {
   List<Widget> pages=[TopMovieTab(),TrendMovieTab(),UpcomingMovieTab()];
@@ -44,22 +45,25 @@ class MoviesAppHomeState extends State<MoviesAppHome> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    // Dark mode ve light mode için icon simgeleri
+    IconData _iconDark= Icons.nights_stay;
+    IconData _iconLight=Icons.wb_sunny;
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 2.0, vertical: 16.0),
               child: Column(
-                children: const [
+                children: [
                   Text(
                     "IMDb",
-                    style: TextStyle(color: Colors.black,fontFamily: 'Arvo',fontWeight: FontWeight.bold,fontSize:20),
+                    style: TextStyle(color:iconBool?Colors.black : mainColor ,fontFamily: 'Arvo',fontWeight: FontWeight.bold,fontSize:20),
                   ),
                 ],
               ),
             ),
       elevation: 0.3,
-      backgroundColor: mainColor,
+      backgroundColor: iconBool? mainColor : Color.fromARGB(255, 58, 58, 58),
       title: Container(
               height: 45,
               width: double.infinity,
@@ -86,6 +90,14 @@ class MoviesAppHomeState extends State<MoviesAppHome> {
               ),
             ),
       actions: [
+        IconButton(
+            onPressed: (){
+              setState(() {
+                iconBool=!iconBool;
+              });
+            },
+            icon: Icon(iconBool ? _iconDark : _iconLight),
+          ),
           IconButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut().then(
@@ -93,10 +105,11 @@ class MoviesAppHomeState extends State<MoviesAppHome> {
                         Navigator.of(context).pushReplacementNamed('/login'),
                   );
             },
-            icon: const Icon(
+            icon:Icon(
+              color: iconBool? Colors.black : Colors.white,
               Icons.logout,
             ),
-          ),
+          ),         
         ],
     ),
         body:SizedBox( 
@@ -117,7 +130,9 @@ class MoviesAppHomeState extends State<MoviesAppHome> {
                   })) :  
                   (widget.pages[widget.pageindex])                                
         ),  
-        bottomNavigationBar: BottomNavigationBar( 
+        bottomNavigationBar: Theme(
+        data: ThemeData(canvasColor: iconBool? Colors.white : Color.fromARGB(255, 58, 58, 58)),
+        child : BottomNavigationBar(
         onTap: (index){
           setState(() {
             searchText="";
@@ -126,6 +141,8 @@ class MoviesAppHomeState extends State<MoviesAppHome> {
             print(widget.pageindex);
           });
         },
+        unselectedItemColor:iconBool? Colors.grey : Colors.white,
+        selectedItemColor: Color(0xfffeca07),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.align_vertical_bottom),
@@ -139,8 +156,8 @@ class MoviesAppHomeState extends State<MoviesAppHome> {
             icon: Icon(Icons.update),
             label: 'Upcoming',
           ),
-        ],
-        selectedItemColor: Color(0xfffeca07),     
+        ],            
+        ),
         ),
         );
   }

@@ -17,18 +17,26 @@ Future<void> main() async {
   }
   runApp(const MyApp());
 }
+  bool iconBool=false;
 
+  ThemeData _darkTheme=ThemeData(
+    brightness: Brightness.dark,
+    primarySwatch: Colors.grey,
+  );
+
+  ThemeData _lightTheme=ThemeData(
+    brightness: Brightness.light,
+    primarySwatch: Colors.amber,
+  );
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme:iconBool ? _darkTheme : _lightTheme,
       debugShowCheckedModeBanner: false,
       title: 'IMDb',
-      /*theme: ThemeData(
-        primarySwatch: Colors.black,
-      ),*/
       initialRoute: '/login',
       routes: {
         '/': (context) => MoviesAppHome(),

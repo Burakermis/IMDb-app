@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imdb/main.dart';
 import '../Models/Movie.dart' as models;
 
 class MovieItem extends StatelessWidget {
@@ -24,15 +25,16 @@ class MovieItem extends StatelessWidget {
                 Text(this.movie.title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
+                  style: TextStyle(color: iconBool? Colors.black : Colors.white),
                 ),
-                Text(this.movie.year),
+                Text(this.movie.year, style: TextStyle(color: iconBool? Colors.black : Colors.white),),
               ]),)
         ],
       ),
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(top: 8, left: 10, right: 10),
       decoration:
-          new BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),color:Color.fromARGB(255, 235, 235, 235)),
+          new BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),color:iconBool? Color.fromARGB(255, 235, 235, 235): Colors.grey),
     );
   }
 }
